@@ -1,0 +1,20 @@
+[
+	{
+		"organization": "OpenG2P",
+		"designation": "IC / Software Developer",
+		"timeline": "Jan 2025 – Present",
+		"desc": "Building an open-source, DPGA-recognized Digital Public Infrastructure (DPI) layer to enable scalable, secure, and efficient G2P fund transfers for national-level deployments."
+	},
+	{
+		"organization": "Technoforte Software",
+		"designation": "Software Engineer",
+		"timeline": "Jun 2024 – Present",
+		"desc": "Building and deploying scalable microservices using FastAPI, with frontend leveraging Odoo. Also working on various mobile applications using React Native to support core platform functionality."
+	},
+	{
+		"organization": "Rocket Propulsion Lab",
+		"designation": "Undergrad Research Assistant / IIT Goa",
+		"timeline": "2024",
+		"desc": "Focused on developing high‑performant computational combustion models for heterogeneous composite propellants, implementing Python/Cantera (v3.x) kinetics solvers to evaluate 1‑D reaction-zone behavior with variants burn‑rate law. Built a artificial neural network to predict charge burn rates from initial data of physical conditions & propellant chemical compositions."
+	}
+]

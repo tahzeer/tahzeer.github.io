@@ -1,0 +1,19 @@
+---
+import experiences from '../data/experiences.json';
+import ExperienceItem from './ExperienceItem.astro';
+---
+
+<section class="mb-10">
+	<h2 class="text-lg font-medium mb-6 mt-8">experiences:</h2>
+	<div class="space-y-8">
+		{experiences.map(exp => (
+			<ExperienceItem
+				organization={exp.organization}
+				designation={exp.designation}
+				timeline={exp.timeline}
+				desc={exp.desc}
+			/>
+		))}
+	</div>
+	<div class="mt-8 w-full h-px bg-zinc-300 dark:bg-zinc-600"></div>
+</section>

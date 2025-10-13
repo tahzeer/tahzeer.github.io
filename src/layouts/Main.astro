@@ -1,0 +1,21 @@
+---
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>tahzeer</title>
+	</head>
+	<body class="bg-dark text-white antialiased flex flex-col items-center justify-center mx-auto mt-2 lg:mt-8 mb-10 lg:mb-20 lowercase select-none">
+		<main class="flex-auto min-w-96 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-3xl w-full">
+			<slot />
+			<Footer/>
+		</main>
+	</body>
+</html>
