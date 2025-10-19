@@ -7,6 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://tahzeer.github.io',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    server: {
+      watch: {
+        usePolling: true, // Enable polling for file changes
+      },
+    },
   }
 });

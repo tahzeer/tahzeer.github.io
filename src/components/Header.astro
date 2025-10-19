@@ -9,6 +9,45 @@
             <a href="/blog" class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative">blog</a>/
             <a href="/projects" class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative">projects</a>/
             <a href="/resume" class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative">resume</a>
+            <button id="theme-toggle" class="w-8 h-8 rounded-full flex items-center justify-center hover:scale-105 transition" aria-label="Toggle theme">
+                <svg class="w-4 h-4" viewBox="0 0 512 512" fill="currentColor">
+                    <path d="M448 256c0-106-86-192-192-192V448c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path>
+                </svg>
+            </button>
+            <script is:inline>
+                (function() {
+                    const btn = document.getElementById('theme-toggle');
+                    function getNextTheme(){ return (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark'; }
+                    btn?.addEventListener('click', (e) => {
+                        const next = getNextTheme();
+                        const enableVT = document.startViewTransition && window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+                        const clickX = e.clientX;
+                        const clickY = e.clientY;
+                        const doc = document.documentElement;
+                        const maxX = Math.max(clickX, innerWidth - clickX);
+                        const maxY = Math.max(clickY, innerHeight - clickY);
+                        const endRadius = Math.hypot(maxX, maxY);
+                        const applyTheme = () => {
+                            doc.setAttribute('data-theme', next);
+                            localStorage.setItem('theme', next);
+                        };
+                        if (enableVT) {
+                            const vt = document.startViewTransition(() => { applyTheme(); });
+                            vt.ready.then(() => {
+                                document.documentElement.animate(
+                                    { clipPath: [
+                                        `circle(0px at ${clickX}px ${clickY}px)`,
+                                        `circle(${endRadius}px at ${clickX}px ${clickY}px)`
+                                    ] },
+                                    { duration: 1000, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)', pseudoElement: '::view-transition-new(root)' }
+                                );
+                            });
+                        } else {
+                            applyTheme();
+                        }
+                    });
+                })();
+            </script>
         </div>
     </div>
 </nav>

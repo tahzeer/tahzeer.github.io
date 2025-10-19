@@ -8,6 +8,23 @@ body {
 	font-style: normal;
 }
 
-.bg-dark {
+/* Light/Dark theme primitives with smooth transitions */
+:root[data-theme="dark"] body {
 	background-color: #121212;
+	color: #ffffff;
+}
+
+:root[data-theme="light"] body {
+	background-color: #ffffff;
+	color: #111111;
+}
+
+/* Smooth transitions for theme changes */
+body {
+	transition: background-color 1s ease-out, color 1s ease-out;
+}
+
+/* View Transitions circular reveal will target the root */
+html {
+	view-transition-name: root;
 }
