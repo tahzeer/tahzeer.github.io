@@ -1,8 +1,12 @@
 name: Deploy Astro to GitHub Pages
 
+env:
+  # Prevent default `pages-build-deployment` workflow from running
+  GH_PAGES_BUILD_TYPE: custom
+
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
@@ -48,6 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
-
