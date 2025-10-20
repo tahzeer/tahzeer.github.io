@@ -28,8 +28,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        # Use npm install because npm ci was getting stuck in a loop
-        run: npm i
+        run: npm ci
 
       - name: Build
         run: npm run build
