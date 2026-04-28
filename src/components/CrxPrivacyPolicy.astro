@@ -1,19 +1,11 @@
 ---
+import { site } from '../data/site';
+import { formatDate } from '../lib/dates';
 ---
 <section class="mt-8 md:mt-10">
 	<h1 class="text-xl md:text-2xl font-semibold tracking-tight">Chrome Extensions Privacy Policy</h1>
 	<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-		Last updated: {
-			(() => {
-				const day = new Date().getDate();
-				const getOrdinal = (n: number) => {
-					const s=["th","st","nd","rd"],
-						v=n%100;
-					return s[(v-20)%10]||s[v]||s[0];
-				};
-				return `${day}${getOrdinal(day)} Oct 2025`;
-			})()
-		}
+		Last updated: {formatDate(site.lastUpdated)}
 	</p>
 
 	<div class="mt-10 w-full h-px bg-zinc-600 dark:bg-zinc-600"></div>

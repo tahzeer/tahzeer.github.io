@@ -1,4 +1,4 @@
-name: Deploy Astro to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -24,13 +24,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci --verbose
 
+      - name: Compute build metadata
+        id: metadata
+        run: echo "last_updated=$(git log -1 --format=%cs)" >> "$GITHUB_OUTPUT"
+
       - name: Build
+        env:
+          PUBLIC_LAST_UPDATED: ${{ steps.metadata.outputs.last_updated }}
         run: npm run build
 
       - name: Upload artifact

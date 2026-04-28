@@ -1,0 +1,94 @@
+---
+import { getCollection, render } from 'astro:content';
+import Main from '../../layouts/Main.astro';
+import { formatDisplayDate } from '../../lib/dates';
+
+export async function getStaticPaths() {
+	const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+
+	return posts.map((post) => ({
+		params: { slug: post.id.replace(/\.mdx?$/, '') },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Main>
+	<article class="blog-post">
+		<header class="mb-8">
+			<a href="/blog/" class="text-sm text-gray-500 transition-all hover:text-neutral-800 dark:hover:text-neutral-200">← back to blog</a>
+			<h1 class="text-2xl font-semibold tracking-tight mt-6 mb-2">{post.data.title}</h1>
+			<time class="text-sm text-gray-500" datetime={post.data.pubDate.toISOString()}>{formatDisplayDate(post.data.pubDate)}</time>
+		</header>
+
+		<div class="blog-post-content text-gray-600 dark:text-gray-400">
+			<Content />
+		</div>
+	</article>
+</Main>
+
+<style>
+	.blog-post-content {
+		line-height: 1.8;
+	}
+
+	.blog-post-content :global(p),
+	.blog-post-content :global(ul),
+	.blog-post-content :global(ol),
+	.blog-post-content :global(pre),
+	.blog-post-content :global(blockquote) {
+		margin-block: 1rem;
+	}
+
+	.blog-post-content :global(h2),
+	.blog-post-content :global(h3) {
+		margin-top: 2rem;
+		margin-bottom: 0.75rem;
+		color: inherit;
+		font-weight: 500;
+	}
+
+	.blog-post-content :global(a) {
+		text-decoration: underline;
+		text-decoration-thickness: 0.12em;
+		text-underline-offset: 0.2em;
+	}
+
+	.blog-post-content :global(ul),
+	.blog-post-content :global(ol) {
+		padding-left: 1.25rem;
+	}
+
+	.blog-post-content :global(ul) {
+		list-style: disc;
+	}
+
+	.blog-post-content :global(ol) {
+		list-style: decimal;
+	}
+
+	.blog-post-content :global(code) {
+		font-size: 0.9em;
+	}
+
+	.blog-post-content :global(pre) {
+		overflow-x: auto;
+		border-radius: 0.5rem;
+		padding: 1rem;
+		background: rgb(24 24 27);
+		color: rgb(244 244 245);
+	}
+
+  :global(.blog-post-content img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #e5e7eb; /* light gray border similar to homepage */
+    border-radius: 0.375rem; /* matches rounded-md */
+    margin: 1rem 0; /* vertical spacing */
+    object-fit: contain;
+  }
+</style>

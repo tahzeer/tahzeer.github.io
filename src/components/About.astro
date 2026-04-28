@@ -1,4 +1,61 @@
 ---
+import {
+	siAstro,
+	siCelery,
+	siCloudflare,
+	siConvex,
+	siDocker,
+	siExpo,
+	siFastapi,
+	siGit,
+	siGo,
+	siGooglecloud,
+	siHono,
+	siKubernetes,
+	siLangchain,
+	siNextdotjs,
+	siOdoo,
+	siPostgresql,
+	siPython,
+	siReact,
+	siRedis,
+	siSupabase,
+	siSvelte,
+	siTailwindcss,
+	siTypescript,
+} from 'simple-icons';
+
+const programmingTechnologies = [
+	{ name: 'fastapi', icon: siFastapi },
+	{ name: 'nextjs', icon: siNextdotjs },
+	{ name: 'react', icon: siReact },
+	{ name: 'svelte', icon: siSvelte },
+	{ name: 'astro', icon: siAstro },
+	{ name: 'tailwind', icon: siTailwindcss },
+	{ name: 'expo', icon: siExpo },
+	{ name: 'hono', icon: siHono },
+	{ name: 'odoo', icon: siOdoo },
+	{ name: 'golang', icon: siGo },
+	{ name: 'python', icon: siPython },
+	{ name: 'typescript', icon: siTypescript },
+	{ name: 'langchain', icon: siLangchain },
+];
+
+const infrastructureTechnologies = [
+	{ name: 'celery', icon: siCelery },
+	{ name: 'redis', icon: siRedis },
+	{ name: 'postgresql', icon: siPostgresql },
+	{ name: 'docker', icon: siDocker },
+	{ name: 'k8s', icon: siKubernetes },
+	{ name: 'gcp', icon: siGooglecloud },
+	{ name: 'cloudflare', icon: siCloudflare },
+	{ name: 'supabase', icon: siSupabase },
+	{ name: 'convex', icon: siConvex },
+	{ name: 'git', icon: siGit },
+];
+
+const scrollingProgrammingTechnologies = [...programmingTechnologies, ...programmingTechnologies];
+const scrollingInfrastructureTechnologies = [...infrastructureTechnologies, ...infrastructureTechnologies];
 ---
 <section>
 	<header class="mb-8">
@@ -8,40 +65,131 @@
 			class="w-full h-full object-cover rounded-lg mb-6 border border-zinc-200 dark:border-zinc-700"
 			loading="eager"
 		/>
-		<p class="text-gray-600 mb-6 dark:text-gray-400">I'm a 23-year-old developer based in (mum/blr) india.</p>
-		<p class="text-gray-600 mb-4 dark:text-gray-400">currently, a software engineer at technoforte software (based in blr) working across full-stack, micro-services development, cloud deployment; contributing to openg2p and helping countries with digitization of large scale goverment to persons fund transfers</p>
+		<p class="text-gray-600 mb-6 dark:text-gray-400">I'm a <span id="age" class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800"></span>-year-old software developer based in (mum/blr) india.</p>
+		<p class="text-gray-600 mb-4 dark:text-gray-400">currently, a software engineer at technoforte software (based in blr) working across full-stack, micro-services development, cloud deployment; contributing to openg2p and helping countries with digitization of large scale government to persons fund transfers</p>
 		<p class="text-gray-600 dark:text-gray-400">in my spare time, i enjoy running, reading and building stuff</p>
 	</header>
-	<h2 class="text-lg font-medium mb-6">stuff i use:</h2>
-	<div class="flex flex-wrap gap-2 mb-6">
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>fastapi</span>
+	<h2 class="text-lg font-medium mb-6">tech stack</h2>
+	<div class="tech-marquee mb-6" aria-label="Technology stack">
+		<div class="tech-marquee-track">
+			{scrollingProgrammingTechnologies.map((technology, index) => (
+				<span class="tech-icon-wrap" tabindex={index < programmingTechnologies.length ? '0' : undefined} aria-label={technology.name} aria-hidden={index >= programmingTechnologies.length ? 'true' : undefined}>
+					<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+						<path d={technology.icon.path}></path>
+					</svg>
+					<span class="tech-tooltip">{technology.name}</span>
+				</span>
+			))}
 		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>nextjs</span>
+		<div class="tech-marquee-track tech-marquee-track-reverse">
+			{scrollingInfrastructureTechnologies.map((technology, index) => (
+				<span class="tech-icon-wrap" tabindex={index < infrastructureTechnologies.length ? '0' : undefined} aria-label={technology.name} aria-hidden={index >= infrastructureTechnologies.length ? 'true' : undefined}>
+					<svg class="tech-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+						<path d={technology.icon.path}></path>
+					</svg>
+					<span class="tech-tooltip">{technology.name}</span>
+				</span>
+			))}
 		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>astro</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>expo</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>odoo</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>golang</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>docker</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>k8s</span>
-		</div>
-		<div class="rounded-lg text-center px-4 py-2 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer duration-300 flex items-center gap-2">
-			<span>git</span>
-		</div>
-		
 	</div>
-	<div class="mt-10 w-full h-px bg-zinc-300 dark:bg-zinc-600"></div>
-<section>
+	<div class="mt-6 w-full h-px bg-zinc-300 dark:bg-zinc-600"></div>
+</section>
+
+<style>
+	.tech-marquee {
+		overflow: hidden;
+		mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+		-webkit-mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+	}
+
+	.tech-marquee-track {
+		display: flex;
+		width: max-content;
+		gap: 3rem;
+		animation: tech-marquee 24s linear infinite;
+		padding-block: 0.5rem 1.8rem;
+	}
+
+	.tech-marquee-track-reverse {
+		animation-name: tech-marquee-reverse;
+		padding-top: 0.25rem;
+	}
+
+	.tech-icon-wrap {
+		position: relative;
+		display: inline-flex;
+		outline: none;
+	}
+
+	.tech-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		flex: 0 0 auto;
+		color: rgb(113 113 122);
+	}
+
+	.tech-tooltip {
+		position: absolute;
+		top: calc(100% + 0.45rem);
+		left: 50%;
+		z-index: 1;
+		padding: 0.25rem 0.5rem;
+		border: 1px solid rgb(63 63 70);
+		border-radius: 0.375rem;
+		background: rgb(39 39 42);
+		color: rgb(228 228 231);
+		font-size: 0.75rem;
+		line-height: 1;
+		opacity: 0;
+		pointer-events: none;
+		text-transform: lowercase;
+		transform: translateX(-50%) translateY(-0.25rem);
+		transition: opacity 150ms ease, transform 150ms ease;
+		white-space: nowrap;
+	}
+
+	.tech-icon-wrap:hover .tech-tooltip,
+	.tech-icon-wrap:focus-visible .tech-tooltip {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	@keyframes tech-marquee {
+		from {
+			transform: translateX(0);
+		}
+
+		to {
+			transform: translateX(calc(-50% - 1.5rem));
+		}
+	}
+
+	@keyframes tech-marquee-reverse {
+		from {
+			transform: translateX(calc(-50% - 1.5rem));
+		}
+
+		to {
+			transform: translateX(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tech-marquee-track {
+			animation: none;
+		}
+	}
+</style>
+
+<script>
+	const BIRTHDATE = new Date(2001, 10, 30);
+	const ageEl = document.getElementById('age');
+	if (ageEl) {
+		const update = () => {
+			const age = (Date.now() - BIRTHDATE.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+			ageEl.textContent = age.toFixed(9);
+		};
+		update();
+		setInterval(update, 100);
+	}
+</script>

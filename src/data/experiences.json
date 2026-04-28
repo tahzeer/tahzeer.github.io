@@ -9,7 +9,7 @@
 		"organization": "Technoforte Software",
 		"designation": "Software Engineer",
 		"timeline": "Jun 2024 – Present",
-		"desc": "Building and deploying scalable microservices using FastAPI, with frontend leveraging Odoo. Also working on various mobile applications using React Native to support core platform functionality."
+		"desc": "Building distributed microservices with FastAPI, Kubernetes, and Helm for nation-scale deployments — migrating legacy Odoo monoliths, shipping shared auth and middleware primitives, and working with government stakeholders on G2P benefit delivery systems."
 	},
 	{
 		"organization": "Rocket Propulsion Lab",

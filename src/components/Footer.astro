@@ -1,29 +1,26 @@
 ---
+import { siRss } from 'simple-icons';
 
 ---
 
 <small
 	class="block lg:mt-20 mt-12 text-neutral-800 dark:text-neutral-200"
 >
-	<time>© 2025</time>
+	<time id="copyright-year" datetime={String(new Date().getFullYear())}>© {new Date().getFullYear()}</time>
 	<span>tahzeer</span>
+	<script is:inline>
+		(() => {
+			const year = String(new Date().getFullYear());
+			const element = document.getElementById("copyright-year");
+			if (element) {
+				element.textContent = `© ${year}`;
+				element.setAttribute("datetime", year);
+			}
+		})();
+	</script>
 	<div
 		class="flex text-lg gap-3.5 float-right transition-opacity duration-300 hover:opacity-90"
 	>
-		<!-- <a href="https://x.com/tahzeer" target="_blank" rel="noopener noreferrer"
-			><svg
-				stroke="currentColor"
-				fill="currentColor"
-				stroke-width="0"
-				viewBox="0 0 512 512"
-				height="1em"
-				width="1em"
-				xmlns="http://www.w3.org/2000/svg"
-				><path
-					d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-				></path></svg
-			></a
-		> -->
 		<a
 			href="https://github.com/tahzeer"
 			target="_blank"
@@ -85,6 +82,20 @@
 				xmlns="http://www.w3.org/2000/svg"
 				><path
 					d="M212.48,136.49l-82.06,82a60,60,0,0,1-84.85-84.88l98.16-97.89a40,40,0,0,1,56.56,56.59l-.17.16-95.8,92.22a12,12,0,1,1-16.64-17.3l95.71-92.12a16,16,0,0,0-22.7-22.56L62.53,150.57a36,36,0,0,0,50.93,50.91l82.06-82a12,12,0,0,1,17,17Z"
+				></path></svg
+			></a
+		><a href="/rss.xml" aria-label="RSS feed"
+			><svg
+				class="w-[0.75em] h-[0.75em] mt-[0.05em]"
+				stroke="currentColor"
+				fill="currentColor"
+				stroke-width="0"
+				viewBox="0 0 24 24"
+				height="1em"
+				width="1em"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					d={siRss.path}
 				></path></svg
 			></a
 		>

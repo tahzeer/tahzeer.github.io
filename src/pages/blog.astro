@@ -1,12 +1,46 @@
 ---
+import { getCollection } from 'astro:content';
 import Main from '../layouts/Main.astro';
+import { formatDisplayDate } from '../lib/dates';
+
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
 ---
 
 <Main>
-	<div class="w-full text-center py-20">
-		<div class="text-lg text-gray-600 dark:text-gray-400">
-			<p>🚧 This page is under construction</p>
+	<section>
+		<div class="flex justify-end mb-6 text-sm text-gray-500">
+			<a href="/rss.xml" class="text-sm font-medium text-gray-500 transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex items-center gap-2" aria-label="RSS feed">
+				<span class="w-[10px] h-[10px] rounded-full bg-green-500 animate-pulse drop-shadow-[0_0_6px_rgba(34,197,94,0.8)]" aria-hidden="true"></span>
+				rss 
+			</a>
+			{posts.length > 0 && (
+				<span class="ml-3">·</span>
+				<span class="ml-3">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</span>
+			)}
 		</div>
-	</div>
-</Main>
 
+		{posts.length > 0 ? (
+			<div class="space-y-8">
+				{posts.map((post) => (
+					<article>
+						<div class="flex justify-between items-start gap-4 mb-1">
+							<h2 class="font-medium">
+								<a href={`/blog/${getSlug(post.id)}/`} class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200">
+									{post.data.title}
+								</a>
+							</h2>
+							<time class="text-sm text-gray-500 shrink-0" datetime={post.data.pubDate.toISOString()}>{formatDisplayDate(post.data.pubDate)}</time>
+						</div>
+						<p class="text-gray-500 text-sm">{post.data.description}</p>
+					</article>
+				))}
+			</div>
+		) : (
+			<p class="text-gray-600 dark:text-gray-400">no posts published yet.</p>
+		)}
+	</section>
+</Main>
