@@ -1,59 +1,6 @@
 ---
-import {
-	siAstro,
-	siCelery,
-	siCloudflare,
-	siConvex,
-	siDocker,
-	siExpo,
-	siFastapi,
-	siGit,
-	siGo,
-	siGooglecloud,
-	siHono,
-	siKubernetes,
-	siLangchain,
-	siNextdotjs,
-	siOdoo,
-	siPostgresql,
-	siPython,
-	siReact,
-	siRedis,
-	siSupabase,
-	siSvelte,
-	siTailwindcss,
-	siTypescript,
-} from 'simple-icons';
+import { infrastructureTechnologies, programmingTechnologies } from '../data/techStack';
 import SectionDivider from './SectionDivider.astro';
-
-const programmingTechnologies = [
-	{ name: 'fastapi', icon: siFastapi },
-	{ name: 'nextjs', icon: siNextdotjs },
-	{ name: 'react', icon: siReact },
-	{ name: 'svelte', icon: siSvelte },
-	{ name: 'astro', icon: siAstro },
-	{ name: 'tailwind', icon: siTailwindcss },
-	{ name: 'expo', icon: siExpo },
-	{ name: 'hono', icon: siHono },
-	{ name: 'odoo', icon: siOdoo },
-	{ name: 'golang', icon: siGo },
-	{ name: 'python', icon: siPython },
-	{ name: 'typescript', icon: siTypescript },
-	{ name: 'langchain', icon: siLangchain },
-];
-
-const infrastructureTechnologies = [
-	{ name: 'celery', icon: siCelery },
-	{ name: 'redis', icon: siRedis },
-	{ name: 'postgresql', icon: siPostgresql },
-	{ name: 'docker', icon: siDocker },
-	{ name: 'k8s', icon: siKubernetes },
-	{ name: 'gcp', icon: siGooglecloud },
-	{ name: 'cloudflare', icon: siCloudflare },
-	{ name: 'supabase', icon: siSupabase },
-	{ name: 'convex', icon: siConvex },
-	{ name: 'git', icon: siGit },
-];
 
 const scrollingProgrammingTechnologies = [...programmingTechnologies, ...programmingTechnologies];
 const scrollingInfrastructureTechnologies = [...infrastructureTechnologies, ...infrastructureTechnologies];
@@ -183,14 +130,7 @@ const scrollingInfrastructureTechnologies = [...infrastructureTechnologies, ...i
 </style>
 
 <script>
-	const BIRTHDATE = new Date(2001, 10, 30);
-	const ageEl = document.getElementById('age');
-	if (ageEl) {
-		const update = () => {
-			const age = (Date.now() - BIRTHDATE.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
-			ageEl.textContent = age.toFixed(9);
-		};
-		update();
-		setInterval(update, 100);
-	}
+	import { mountLiveAge } from '../lib/liveAge';
+
+	mountLiveAge('age', new Date(2001, 10, 30));
 </script>

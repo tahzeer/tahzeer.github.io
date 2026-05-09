@@ -1,20 +1,19 @@
 import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+import { blogPath, getPublishedBlogPosts } from '../lib/blog';
 
 export async function GET(context) {
-	const posts = (await getCollection('blog'))
-		.filter((post) => !post.data.draft)
-		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+	const posts = await getPublishedBlogPosts();
 
 	return rss({
-		title: 'tahzeer',
-		description: 'Writing from tahzeer.',
+		title: site.feed.title,
+		description: site.feed.description,
 		site: context.site,
 		items: posts.map((post) => ({
 			title: post.data.title,
 			description: post.data.description,
 			pubDate: post.data.pubDate,
-			link: `/blog/${post.id.replace(/\.mdx?$/, '')}/`,
+			link: blogPath(post),
 		})),
 	});
 }

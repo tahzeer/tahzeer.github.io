@@ -35,7 +35,7 @@ const { username, class: className = '' } = Astro.props;
 </section>
 
 <script>
-	const levelLabels = ['no contributions', 'low activity', 'steady activity', 'high activity', 'very high activity'];
+	import { contributionLevelLabels, fetchGitHubContributions } from '../lib/githubContributions';
 
 	function formatDate(date) {
 		return new Intl.DateTimeFormat('en', {
@@ -73,15 +73,8 @@ const { username, class: className = '' } = Astro.props;
 			tooltip.style.top = `${y - panelRect.top - 12}px`;
 		}
 
-		fetch(`https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}?y=last`)
-			.then((response) => {
-				if (!response.ok) throw new Error('Contribution service unavailable');
-				return response.json();
-			})
-			.then((data) => {
-				const contributions = Array.isArray(data.contributions) ? data.contributions : [];
-				const total = data.total?.lastYear ?? contributions.reduce((sum, day) => sum + Number(day.count || 0), 0);
-
+		fetchGitHubContributions(username)
+			.then(({ contributions, total }) => {
 				grid.textContent = '';
 				grid.removeAttribute('aria-hidden');
 				grid.setAttribute('role', 'img');
@@ -90,13 +83,11 @@ const { username, class: className = '' } = Astro.props;
 
 				for (const day of contributions) {
 					const cell = document.createElement('span');
-					const level = Math.max(0, Math.min(4, Number(day.level || 0)));
-					const count = Number(day.count || 0);
 
-					cell.className = `github-contributions-cell level-${level}`;
+					cell.className = `github-contributions-cell level-${day.level}`;
 					cell.tabIndex = 0;
-					cell.dataset.tooltip = `${count} contribution${count === 1 ? '' : 's'} on ${formatDate(day.date)}`;
-					cell.setAttribute('aria-label', `${levelLabels[level]}: ${cell.dataset.tooltip}`);
+					cell.dataset.tooltip = `${day.count} contribution${day.count === 1 ? '' : 's'} on ${formatDate(day.date)}`;
+					cell.setAttribute('aria-label', `${contributionLevelLabels[day.level]}: ${cell.dataset.tooltip}`);
 					cell.addEventListener('mouseenter', (event) => showTooltip(cell, event));
 					cell.addEventListener('mousemove', (event) => showTooltip(cell, event));
 					cell.addEventListener('mouseleave', hideTooltip);
