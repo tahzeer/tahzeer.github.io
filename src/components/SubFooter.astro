@@ -1,13 +1,14 @@
 ---
 import { site } from '../data/site';
 import { formatDate } from '../lib/dates';
+import SectionDivider from './SectionDivider.astro';
 ---
 
-<div>
+<section>
 	<p class="text-gray-600 dark:text-gray-400">i'm currently exploring building products in the financial space, if you are interested in collaborating, building something cool or just wanna chat about tech, finance and startups in general feel free to reach out to me through the links below</p>
-	<p class="text-gray-500 mt-6 mb-12"></p>
+	<SectionDivider />
 	<div
-		class="text-sm flex justify-between items-center opacity-60 text-gray-500 mt-5 w-full"
+		class="text-sm flex justify-between items-center opacity-60 text-gray-500 w-full"
 	>
 		<div class="flex items-center">
 			<span>
@@ -31,4 +32,4 @@ import { formatDate } from '../lib/dates';
 			> last updated {formatDate(site.lastUpdated)}
 		</p>
 	</div>
-</div>
+</section>

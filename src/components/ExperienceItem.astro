@@ -3,7 +3,7 @@ const { organization, designation, timeline, desc } = Astro.props;
 const isCurrent = timeline.toLowerCase().includes("present");
 ---
 
-<div class="mb-6">
+<div>
   <div class="flex justify-between items-start mb-1">
     <h3 class="font-medium flex items-center gap-2">
       {organization}
@@ -24,6 +24,6 @@ const isCurrent = timeline.toLowerCase().includes("present");
     </h3>
     <span class="text-sm text-gray-500">{timeline}</span>
   </div>
-  <p class="text-sm text-gray-500 italic mb-2">{designation}</p>
+  <p class="text-sm text-gray-500 mb-2">{designation}</p>
   <p class="text-gray-500 text-sm">{desc}</p>
 </div>

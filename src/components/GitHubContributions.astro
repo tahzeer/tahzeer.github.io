@@ -1,0 +1,269 @@
+---
+type Props = {
+	username: string;
+	class?: string;
+};
+
+const { username, class: className = '' } = Astro.props;
+---
+
+<section
+	class={`github-contributions ${className}`}
+	data-github-contributions
+	data-username={username}
+	aria-label={`github contributions for ${username}`}
+>
+	<div class="mb-4 flex items-baseline justify-between gap-4">
+		<h2 class="font-serif-accent text-lg opacity-60">github contributions</h2>
+		<a
+			href={`https://github.com/${username}`}
+			class="text-sm text-gray-500 underline decoration-gray-200 decoration-4 transition-all hover:text-neutral-800 dark:decoration-gray-800 dark:hover:text-neutral-200"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			@{username}
+		</a>
+	</div>
+
+	<div class="github-contributions-panel">
+		<div class="github-contributions-grid" data-grid aria-hidden="true">
+			{Array.from({ length: 371 }).map(() => <span class="github-contributions-cell is-loading"></span>)}
+		</div>
+		<p class="mt-4 text-sm text-gray-500" data-summary>loading contribution graph...</p>
+		<div class="github-contributions-tooltip" data-tooltip role="tooltip"></div>
+	</div>
+</section>
+
+<script>
+	const levelLabels = ['no contributions', 'low activity', 'steady activity', 'high activity', 'very high activity'];
+
+	function formatDate(date) {
+		return new Intl.DateTimeFormat('en', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric',
+		}).format(new Date(`${date}T00:00:00`));
+	}
+
+	function renderContributionGraph(container) {
+		const username = container.dataset.username;
+		const grid = container.querySelector('[data-grid]');
+		const summary = container.querySelector('[data-summary]');
+		const tooltip = container.querySelector('[data-tooltip]');
+
+		if (!username || !grid || !summary || !tooltip) return;
+
+		function hideTooltip() {
+			tooltip.classList.remove('is-visible');
+		}
+
+		function showTooltip(cell, event) {
+			const message = cell.dataset.tooltip;
+			if (!message) return;
+
+			tooltip.textContent = message;
+			tooltip.classList.add('is-visible');
+
+			const panelRect = container.getBoundingClientRect();
+			const cellRect = cell.getBoundingClientRect();
+			const x = event?.clientX ?? cellRect.left + cellRect.width / 2;
+			const y = event?.clientY ?? cellRect.top;
+
+			tooltip.style.left = `${x - panelRect.left}px`;
+			tooltip.style.top = `${y - panelRect.top - 12}px`;
+		}
+
+		fetch(`https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}?y=last`)
+			.then((response) => {
+				if (!response.ok) throw new Error('Contribution service unavailable');
+				return response.json();
+			})
+			.then((data) => {
+				const contributions = Array.isArray(data.contributions) ? data.contributions : [];
+				const total = data.total?.lastYear ?? contributions.reduce((sum, day) => sum + Number(day.count || 0), 0);
+
+				grid.textContent = '';
+				grid.removeAttribute('aria-hidden');
+				grid.setAttribute('role', 'img');
+				grid.setAttribute('aria-label', `${total} github contributions in the last year`);
+				grid.style.gridTemplateColumns = `repeat(${Math.ceil(contributions.length / 7)}, minmax(0, 1fr))`;
+
+				for (const day of contributions) {
+					const cell = document.createElement('span');
+					const level = Math.max(0, Math.min(4, Number(day.level || 0)));
+					const count = Number(day.count || 0);
+
+					cell.className = `github-contributions-cell level-${level}`;
+					cell.tabIndex = 0;
+					cell.dataset.tooltip = `${count} contribution${count === 1 ? '' : 's'} on ${formatDate(day.date)}`;
+					cell.setAttribute('aria-label', `${levelLabels[level]}: ${cell.dataset.tooltip}`);
+					cell.addEventListener('mouseenter', (event) => showTooltip(cell, event));
+					cell.addEventListener('mousemove', (event) => showTooltip(cell, event));
+					cell.addEventListener('mouseleave', hideTooltip);
+					cell.addEventListener('focus', () => showTooltip(cell));
+					cell.addEventListener('blur', hideTooltip);
+					grid.append(cell);
+				}
+
+				summary.textContent = `${total.toLocaleString()} contributions in the last year`;
+			})
+			.catch(() => {
+				grid.textContent = '';
+				grid.setAttribute('aria-hidden', 'true');
+				const link = document.createElement('a');
+				link.href = `https://github.com/${username}`;
+				link.target = '_blank';
+				link.rel = 'noopener noreferrer';
+				link.textContent = 'github profile';
+
+				summary.textContent = 'could not load the graph right now. view ';
+				summary.append(link, '.');
+			});
+	}
+
+	document.querySelectorAll('[data-github-contributions]').forEach(renderContributionGraph);
+</script>
+
+<style>
+	.github-contributions-panel {
+		position: relative;
+		overflow: visible;
+	}
+
+	.github-contributions-grid {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+		grid-template-columns: repeat(53, minmax(0, 1fr));
+		grid-template-rows: repeat(7, auto);
+		gap: 0.16rem;
+		width: 100%;
+		max-width: 100%;
+		overflow-x: visible;
+		padding-bottom: 0.25rem;
+	}
+
+	.github-contributions-grid :global(.github-contributions-cell),
+	.github-contributions-cell {
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 0.15rem;
+		background: rgb(229 231 235);
+		box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.04);
+	}
+
+	.github-contributions-grid :global(.github-contributions-cell) {
+		display: block;
+	}
+
+	.github-contributions-cell.is-loading {
+		animation: pulse-contribution 1.4s ease-in-out infinite;
+	}
+
+	.github-contributions-grid :global(.level-0),
+	.github-contributions-cell.level-0 {
+		background: rgb(229 231 235);
+	}
+
+	.github-contributions-grid :global(.level-1),
+	.github-contributions-cell.level-1 {
+		background: rgb(155 233 168);
+	}
+
+	.github-contributions-grid :global(.level-2),
+	.github-contributions-cell.level-2 {
+		background: rgb(64 196 99);
+	}
+
+	.github-contributions-grid :global(.level-3),
+	.github-contributions-cell.level-3 {
+		background: rgb(48 161 78);
+	}
+
+	.github-contributions-grid :global(.level-4),
+	.github-contributions-cell.level-4 {
+		background: rgb(33 110 57);
+	}
+
+	.github-contributions-panel :global(a) {
+		text-decoration: underline;
+		text-decoration-thickness: 4px;
+		text-decoration-color: rgb(229 231 235);
+	}
+
+	.github-contributions-tooltip {
+		position: absolute;
+		z-index: 2;
+		max-width: 15rem;
+		padding: 0.3rem 0.5rem;
+		border: 1px solid rgb(212 212 216);
+		border-radius: 0.375rem;
+		background: rgb(255 255 255);
+		color: rgb(82 82 91);
+		font-size: 0.75rem;
+		line-height: 1.2;
+		opacity: 0;
+		pointer-events: none;
+		text-transform: lowercase;
+		transform: translate(-50%, -100%) translateY(-0.25rem);
+		transition: opacity 120ms ease, transform 120ms ease;
+		white-space: nowrap;
+	}
+
+	.github-contributions-tooltip.is-visible {
+		opacity: 1;
+		transform: translate(-50%, -100%) translateY(0);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-tooltip {
+		border-color: rgb(63 63 70);
+		background: rgb(39 39 42);
+		color: rgb(228 228 231);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.github-contributions-cell),
+	:global([data-theme="dark"]) .github-contributions-cell {
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.035);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.level-0),
+	:global([data-theme="dark"]) .github-contributions-cell.level-0,
+	:global([data-theme="dark"]) .github-contributions-cell.is-loading {
+		background: rgb(39 39 42);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.level-1),
+	:global([data-theme="dark"]) .github-contributions-cell.level-1 {
+		background: rgb(14 68 41);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.level-2),
+	:global([data-theme="dark"]) .github-contributions-cell.level-2 {
+		background: rgb(0 109 50);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.level-3),
+	:global([data-theme="dark"]) .github-contributions-cell.level-3 {
+		background: rgb(38 166 65);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-grid :global(.level-4),
+	:global([data-theme="dark"]) .github-contributions-cell.level-4 {
+		background: rgb(57 211 83);
+	}
+
+	:global([data-theme="dark"]) .github-contributions-panel :global(a) {
+		text-decoration-color: rgb(39 39 42);
+	}
+
+	@keyframes pulse-contribution {
+		0%,
+		100% {
+			opacity: 0.55;
+		}
+
+		50% {
+			opacity: 1;
+		}
+	}
+</style>

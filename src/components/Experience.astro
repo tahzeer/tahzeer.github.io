@@ -1,10 +1,11 @@
 ---
 import experiences from '../data/experiences.json';
 import ExperienceItem from './ExperienceItem.astro';
+import SectionDivider from './SectionDivider.astro';
 ---
 
-<section class="mb-10">
-	<h2 class="text-lg font-medium mb-6 mt-8">experiences</h2>
+<section>
+	<h2 class="font-serif-accent text-lg opacity-60 mb-7">experiences</h2>
 	<div class="space-y-8">
 		{experiences.map(exp => (
 			<ExperienceItem
@@ -15,5 +16,5 @@ import ExperienceItem from './ExperienceItem.astro';
 			/>
 		))}
 	</div>
-	<div class="mt-8 w-full h-px bg-zinc-300 dark:bg-zinc-600"></div>
+	<SectionDivider />
 </section>

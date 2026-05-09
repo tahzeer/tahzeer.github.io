@@ -1,11 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 body {
-	font-family: "Geist", sans-serif;
+	font-family: "JetBrains Mono", monospace;
+	font-size: 0.9375rem;
 	font-optical-sizing: auto;
 	font-weight: 400;
 	font-style: normal;
+}
+
+.font-serif-accent {
+	font-family: "JetBrains Mono", monospace;
+	font-weight: 500;
 }
 
 /* Light/Dark theme primitives with smooth transitions */

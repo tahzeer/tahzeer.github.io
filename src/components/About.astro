@@ -24,6 +24,7 @@ import {
 	siTailwindcss,
 	siTypescript,
 } from 'simple-icons';
+import SectionDivider from './SectionDivider.astro';
 
 const programmingTechnologies = [
 	{ name: 'fastapi', icon: siFastapi },
@@ -58,19 +59,19 @@ const scrollingProgrammingTechnologies = [...programmingTechnologies, ...program
 const scrollingInfrastructureTechnologies = [...infrastructureTechnologies, ...infrastructureTechnologies];
 ---
 <section>
-	<header class="mb-8">
+	<header class="mb-9">
 		<img 
 			src="/banner.png" 
 			alt="Banner" 
-			class="w-full h-full object-cover rounded-lg mb-6 border border-zinc-200 dark:border-zinc-700"
+			class="w-full h-full object-cover rounded-lg mb-8 border border-zinc-200 dark:border-zinc-700"
 			loading="eager"
 		/>
 		<p class="text-gray-600 mb-6 dark:text-gray-400">I'm a <span id="age" class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800"></span>-year-old software developer based in (mum/blr) india.</p>
 		<p class="text-gray-600 mb-4 dark:text-gray-400">currently, a software engineer at technoforte software (based in blr) working across full-stack, micro-services development, cloud deployment; contributing to openg2p and helping countries with digitization of large scale government to persons fund transfers</p>
 		<p class="text-gray-600 dark:text-gray-400">in my spare time, i enjoy running, reading and building stuff</p>
 	</header>
-	<h2 class="text-lg font-medium mb-6">tech stack</h2>
-	<div class="tech-marquee mb-6" aria-label="Technology stack">
+	<h2 class="font-serif-accent text-lg opacity-60 mb-6">tech stack</h2>
+	<div class="tech-marquee" aria-label="Technology stack">
 		<div class="tech-marquee-track">
 			{scrollingProgrammingTechnologies.map((technology, index) => (
 				<span class="tech-icon-wrap" tabindex={index < programmingTechnologies.length ? '0' : undefined} aria-label={technology.name} aria-hidden={index >= programmingTechnologies.length ? 'true' : undefined}>
@@ -92,7 +93,7 @@ const scrollingInfrastructureTechnologies = [...infrastructureTechnologies, ...i
 			))}
 		</div>
 	</div>
-	<div class="mt-6 w-full h-px bg-zinc-300 dark:bg-zinc-600"></div>
+	<SectionDivider />
 </section>
 
 <style>
