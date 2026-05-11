@@ -1,0 +1,58 @@
+---
+import Main from './Main.astro';
+import { formatDisplayDate } from '../lib/dates';
+import type { BlogPost } from '../lib/blog';
+
+interface Props {
+	post: BlogPost;
+	readingTime?: number;
+}
+
+const { post, readingTime } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+---
+
+<Main title={title} description={description} canonicalPath={`/blog/${post.id.replace(/\.mdx?$/, '')}/`}>
+	<article>
+		<header class="mb-10">
+			<a
+				href="/blog/"
+				class="text-sm text-gray-500 transition-all hover:text-neutral-800 dark:hover:text-neutral-200 inline-flex items-center gap-1"
+			>
+				<span aria-hidden="true">←</span> back to blog
+			</a>
+
+			<h1 class="text-xl font-semibold tracking-tight mt-8 mb-3">{title}</h1>
+
+			<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
+				<time datetime={pubDate.toISOString()}>{formatDisplayDate(pubDate)}</time>
+				{readingTime && (
+					<>
+						<span aria-hidden="true">·</span>
+						<span>{readingTime} min read</span>
+					</>
+				)}
+			</div>
+
+			{tags && tags.length > 0 && (
+				<div class="flex flex-wrap gap-2 mt-4">
+					{tags.map((tag: string) => (
+						<span class="inline-flex items-center rounded-full border border-gray-200 dark:border-gray-800 px-2.5 py-0.5 text-xs text-gray-600 dark:text-gray-400">
+							{tag}
+						</span>
+					))}
+				</div>
+			)}
+		</header>
+
+		<div class="prose prose-sm dark:prose-invert prose-zinc max-w-none
+			prose-headings:font-medium prose-headings:tracking-tight
+			prose-h2:text-xl prose-h3:text-lg
+			prose-a:underline prose-a:decoration-[0.12em] prose-a:underline-offset-[0.2em]
+			prose-pre:bg-zinc-900 prose-pre:text-zinc-100
+			prose-img:rounded-md prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-800 prose-img:my-4
+			prose-blockquote:border-l-gray-300 dark:prose-blockquote:border-l-gray-700">
+			<slot />
+		</div>
+	</article>
+</Main>

@@ -9,6 +9,8 @@
 - **Tailwind**: Integrated via Vite plugin (`@tailwindcss/vite`). No extra postcss config needed.
 - **Entry points**: All pages are `.astro` files under `src/pages/`. Shared shell is `src/layouts/Main.astro`.
 - **Blog content**: Markdown posts live in `src/content/blog/`; set `draft: false` in frontmatter to publish at `/blog/<slug>/`.
+- **Blog layouts**: Individual posts use `src/layouts/BlogPostLayout.astro`, which wraps `Main.astro` and provides article headers (title, date, tags, reading time) plus `prose` styling for rendered Markdown.
+- **Markdown styling**: Rendered Markdown is styled with `@tailwindcss/typography` (`prose` / `dark:prose-invert`) rather than manual `:global()` CSS.
 - **Content data**: Experience content is in `src/data/experiences.json`; project content is in `src/data/projects.ts`; most profile/social copy is still component-local.
 - **Visual constraint**: Preserve the existing minimalist Geist/Tailwind look unless the user explicitly asks for a redesign.
 - **Components**: Existing components are flat under `src/components/`; avoid moving files unless there is a concrete payoff.

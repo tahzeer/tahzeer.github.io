@@ -17,3 +17,9 @@ export async function getPublishedBlogPosts() {
 		.filter((post) => !post.data.draft)
 		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
+
+export function estimateReadingTime(body: string | undefined): number {
+	if (!body) return 1;
+	const words = body.trim().split(/\s+/).length;
+	return Math.max(1, Math.ceil(words / 200));
+}
