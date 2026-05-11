@@ -9,23 +9,38 @@ interface Props {
 
 const { policy } = Astro.props;
 ---
-<section class="mt-8 md:mt-10">
-	<h1 class="text-xl md:text-2xl font-semibold tracking-tight">{policy.title}</h1>
-	<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-		Last updated: {formatDate(site.lastUpdated)}
-	</p>
 
-	<div class="mt-10 w-full h-px bg-zinc-600 dark:bg-zinc-600"></div>
+<article>
+	<header class="mb-10">
+		<a
+			href="/"
+			class="text-sm text-gray-500 transition-all hover:text-neutral-800 dark:hover:text-neutral-200 inline-flex items-center gap-1"
+		>
+			<span aria-hidden="true">←</span> back to home
+		</a>
 
-	<div class="mt-6 space-y-6 leading-7 text-zinc-200 dark:text-zinc-400">
+		<h1 class="text-xl font-semibold tracking-tight mt-8 mb-3">{policy.title}</h1>
+
+		<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
+			<time datetime={site.lastUpdated}>Last updated: {formatDate(site.lastUpdated)}</time>
+		</div>
+	</header>
+
+	<div class="prose prose-sm dark:prose-invert prose-zinc max-w-none
+		prose-headings:font-medium prose-headings:tracking-tight
+		prose-h2:text-xl prose-h3:text-lg
+		prose-a:underline prose-a:decoration-[0.12em] prose-a:underline-offset-[0.2em]
+		prose-pre:bg-zinc-900 prose-pre:text-zinc-100
+		prose-img:rounded-md prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-800 prose-img:my-4
+		prose-blockquote:border-l-gray-300 dark:prose-blockquote:border-l-gray-700">
 		{policy.sections.map((section) => (
 			<section>
-				<h2 class="text-xl font-medium">{section.heading}</h2>
+				<h2>{section.heading}</h2>
 				{section.paragraphs.map((paragraph) => (
-					<p class="mt-2" set:html={paragraph} />
+					<p set:html={paragraph} />
 				))}
 				{section.listItems && section.listItems.length > 0 && (
-					<ul class="mt-2 list-disc list-inside space-y-1">
+					<ul>
 						{section.listItems.map((item) => (
 							<li>{item}</li>
 						))}
@@ -34,4 +49,4 @@ const { policy } = Astro.props;
 			</section>
 		))}
 	</div>
-</section>
+</article>
