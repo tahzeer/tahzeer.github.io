@@ -15,7 +15,7 @@
 - **Visual constraint**: Preserve the existing minimalist Geist/Tailwind look unless the user explicitly asks for a redesign.
 - **Components**: Existing components are flat under `src/components/`; avoid moving files unless there is a concrete payoff.
 - **Preferred URLs**: Use `/blog/` for writing and `/blog/<slug>/` for posts.
-- **Policy route**: Chrome extension privacy policy is intentionally public but not in primary nav. Preferred URL is `/privacy/chrome-extensions/`; `/policies/chrome-extensions/` and `/crx-privacy-policy/` are kept as compatibility aliases.
+- **Policy route**: Chrome extension privacy policy lives at `/privacy/chrome-extensions/` only.
 - **Build metadata**: GitHub Actions exports `PUBLIC_LAST_UPDATED` from the latest commit date; `src/data/site.ts` has the local fallback.
 - **TypeScript**: Extends `astro/tsconfigs/strict`; includes generated `.astro/types.d.ts`.
 - **Deploy**: GitHub Actions `pages.yml` runs `npm ci` → `npm run build` → uploads `./dist` as Pages artifact.

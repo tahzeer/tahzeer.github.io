@@ -36,4 +36,5 @@ body {
 /* View Transitions circular reveal will target the root */
 html {
 	view-transition-name: root;
+	scrollbar-gutter: stable;
 }

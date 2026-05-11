@@ -15,6 +15,7 @@ Personal portfolio built with Astro and Tailwind CSS v4, deployed to GitHub Page
 - Components currently live flat in `src/components/`.
 - Experience data lives in `src/data/experiences.json`; project data lives in `src/data/projects.ts`.
 - Blog posts live as Markdown files in `src/content/blog/` and publish under `/blog/` when `draft: false`.
+- Blog posts render through `src/layouts/BlogPostLayout.astro`, which wraps `Main.astro` and adds article headers, reading time, tags, and `prose` typography.
 - Preferred public paths are `/`, `/blog/`, `/projects/`, `/resume/`, and `/privacy/chrome-extensions/`.
 
 ## Deployment

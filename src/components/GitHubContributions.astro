@@ -35,84 +35,35 @@ const { username, class: className = '' } = Astro.props;
 </section>
 
 <script>
-	import { contributionLevelLabels, fetchGitHubContributions } from '../lib/githubContributions';
+	import { fetchGitHubContributions } from '../lib/githubContributions';
+	import { renderContributionGrid, renderContributionError } from '../lib/renderContributionGrid';
+	import { createTooltip, showTooltip, hideTooltip } from '../lib/contributionTooltip';
 
-	function formatDate(date) {
-		return new Intl.DateTimeFormat('en', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric',
-		}).format(new Date(`${date}T00:00:00`));
-	}
-
-	function renderContributionGraph(container) {
+	function renderContributionGraph(container: HTMLElement) {
 		const username = container.dataset.username;
-		const grid = container.querySelector('[data-grid]');
-		const summary = container.querySelector('[data-summary]');
-		const tooltip = container.querySelector('[data-tooltip]');
+		const grid = container.querySelector('[data-grid]') as HTMLElement | null;
+		const summary = container.querySelector('[data-summary]') as HTMLElement | null;
+		const tooltipEl = createTooltip(container);
 
-		if (!username || !grid || !summary || !tooltip) return;
+		if (!username || !grid || !summary) return;
 
-		function hideTooltip() {
-			tooltip.classList.remove('is-visible');
-		}
-
-		function showTooltip(cell, event) {
-			const message = cell.dataset.tooltip;
-			if (!message) return;
-
-			tooltip.textContent = message;
-			tooltip.classList.add('is-visible');
-
-			const panelRect = container.getBoundingClientRect();
-			const cellRect = cell.getBoundingClientRect();
-			const x = event?.clientX ?? cellRect.left + cellRect.width / 2;
-			const y = event?.clientY ?? cellRect.top;
-
-			tooltip.style.left = `${x - panelRect.left}px`;
-			tooltip.style.top = `${y - panelRect.top - 12}px`;
-		}
+		const handleShow = (cell: HTMLElement, event?: MouseEvent | FocusEvent) =>
+			showTooltip(tooltipEl, container, cell, event);
+		const handleHide = () => hideTooltip(tooltipEl);
 
 		fetchGitHubContributions(username)
 			.then(({ contributions, total }) => {
-				grid.textContent = '';
-				grid.removeAttribute('aria-hidden');
-				grid.setAttribute('role', 'img');
-				grid.setAttribute('aria-label', `${total} github contributions in the last year`);
-				grid.style.gridTemplateColumns = `repeat(${Math.ceil(contributions.length / 7)}, minmax(0, 1fr))`;
-
-				for (const day of contributions) {
-					const cell = document.createElement('span');
-
-					cell.className = `github-contributions-cell level-${day.level}`;
-					cell.tabIndex = 0;
-					cell.dataset.tooltip = `${day.count} contribution${day.count === 1 ? '' : 's'} on ${formatDate(day.date)}`;
-					cell.setAttribute('aria-label', `${contributionLevelLabels[day.level]}: ${cell.dataset.tooltip}`);
-					cell.addEventListener('mouseenter', (event) => showTooltip(cell, event));
-					cell.addEventListener('mousemove', (event) => showTooltip(cell, event));
-					cell.addEventListener('mouseleave', hideTooltip);
-					cell.addEventListener('focus', () => showTooltip(cell));
-					cell.addEventListener('blur', hideTooltip);
-					grid.append(cell);
-				}
-
+				renderContributionGrid(grid, contributions, total, handleShow, handleHide);
 				summary.textContent = `${total.toLocaleString()} contributions in the last year`;
 			})
 			.catch(() => {
-				grid.textContent = '';
-				grid.setAttribute('aria-hidden', 'true');
-				const link = document.createElement('a');
-				link.href = `https://github.com/${username}`;
-				link.target = '_blank';
-				link.rel = 'noopener noreferrer';
-				link.textContent = 'github profile';
-
-				summary.textContent = 'could not load the graph right now. view ';
-				summary.append(link, '.');
+				renderContributionError(grid, summary, username);
 			});
 	}
 
-	document.querySelectorAll('[data-github-contributions]').forEach(renderContributionGraph);
+	document.querySelectorAll('[data-github-contributions]').forEach((el) => {
+		if (el instanceof HTMLElement) renderContributionGraph(el);
+	});
 </script>
 
 <style>
