@@ -1,4 +1,5 @@
 import { contributionLevelLabels } from './githubContributions';
+import { parseDateOnly } from '../../lib/dates';
 import type { GitHubContribution } from './githubContributions';
 
 function formatDate(date: string): string {
@@ -6,7 +7,7 @@ function formatDate(date: string): string {
 		month: 'short',
 		day: 'numeric',
 		year: 'numeric',
-	}).format(new Date(`${date}T00:00:00`));
+	}).format(parseDateOnly(date));
 }
 
 export function createContributionCell(

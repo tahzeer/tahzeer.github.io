@@ -1,5 +1,7 @@
-const THEME_KEY = 'theme';
-const THEME_ATTR = 'data-theme';
+export const THEME_KEY = 'theme';
+export const THEME_ATTR = 'data-theme';
+
+export const themeInitScript = `(function(){var s=localStorage.getItem('${THEME_KEY}');var p=window.matchMedia('(prefers-color-scheme:dark)').matches;var t=s||(p?'dark':'light');document.documentElement.setAttribute('${THEME_ATTR}',t);})()`;
 
 export type Theme = 'dark' | 'light';
 
@@ -27,10 +29,6 @@ export function applyTheme(theme: Theme): void {
 export function persistTheme(theme: Theme): void {
 	if (typeof localStorage === 'undefined') return;
 	localStorage.setItem(THEME_KEY, theme);
-}
-
-export function initTheme(): void {
-	applyTheme(getCurrentTheme());
 }
 
 export function getNextTheme(): Theme {

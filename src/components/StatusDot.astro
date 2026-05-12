@@ -1,0 +1,15 @@
+---
+interface Props {
+  pulse?: boolean;
+  label?: string;
+}
+
+const { pulse = true, label = "active" } = Astro.props;
+---
+
+<span
+  class={`w-[10px] h-[10px] rounded-full bg-green-500 drop-shadow-[0_0_6px_rgba(34,197,94,0.8)] shrink-0${pulse ? " animate-pulse" : ""}`}
+  aria-label={label}
+  aria-hidden="true"
+>
+</span>

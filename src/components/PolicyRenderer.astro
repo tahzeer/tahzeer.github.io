@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/site';
-import { formatDate } from '../lib/dates';
+import { formatDateOnly } from '../lib/dates';
+import { PROSE_CLASSES } from '../lib/prose';
 import type { Policy } from '../lib/chromeExtensionPolicy';
 
 interface Props {
@@ -22,17 +23,11 @@ const { policy } = Astro.props;
 		<h1 class="text-xl font-semibold tracking-tight mt-8 mb-3">{policy.title}</h1>
 
 		<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
-			<time datetime={site.lastUpdated}>Last updated: {formatDate(site.lastUpdated)}</time>
+			<time datetime={site.lastUpdated}>Last updated: {formatDateOnly(site.lastUpdated)}</time>
 		</div>
 	</header>
 
-	<div class="prose prose-sm dark:prose-invert prose-zinc max-w-none
-		prose-headings:font-medium prose-headings:tracking-tight
-		prose-h2:text-xl prose-h3:text-lg
-		prose-a:underline prose-a:decoration-[0.12em] prose-a:underline-offset-[0.2em]
-		prose-pre:bg-zinc-900 prose-pre:text-zinc-100
-		prose-img:rounded-md prose-img:border prose-img:border-gray-200 dark:prose-img:border-gray-800 prose-img:my-4
-		prose-blockquote:border-l-gray-300 dark:prose-blockquote:border-l-gray-700">
+	<div class={PROSE_CLASSES}>
 		{policy.sections.map((section) => (
 			<section>
 				<h2>{section.heading}</h2>

@@ -35,9 +35,9 @@ const { username, class: className = '' } = Astro.props;
 </section>
 
 <script>
-	import { fetchGitHubContributions } from '../lib/githubContributions';
-	import { renderContributionGrid, renderContributionError } from '../lib/renderContributionGrid';
-	import { createTooltip, showTooltip, hideTooltip } from '../lib/contributionTooltip';
+	import { fetchGitHubContributions } from '../features/contributions/githubContributions';
+	import { renderContributionGrid, renderContributionError } from '../features/contributions/renderContributionGrid';
+	import { createTooltip, showTooltip, hideTooltip } from '../features/contributions/contributionTooltip';
 
 	function renderContributionGraph(container: HTMLElement) {
 		const username = container.dataset.username;
