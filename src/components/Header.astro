@@ -1,5 +1,7 @@
 ---
 import { site } from '../data/site';
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <nav class="lg:mb-12 md:mb-12 mb-4 py-5">
     <div class="flex flex-col md:flex-row md:items-center justify-between">
@@ -7,13 +9,16 @@ import { site } from '../data/site';
             <a href="/" class="font-serif-accent text-3xl gap-2 flex lg:flex tracking-tight items-center justify-center">{site.name}</a>
         </div>
         <div class="flex flex-row gap-6 mt-6 md:mt-0 md:ml-auto items-center">
-            {site.navigation.map((item) => (
-                <a href={item.href} class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative gap-1">
+            {site.navigation.map((item) => {
+                const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href + '/'));
+                return (
+                <a href={item.href} class="group transition-all flex align-middle relative gap-1">
                     <span class="text-gray-400 dark:text-gray-600 select-none">[</span>
-                    {item.label}
+                    <span class={`text-gray-400 dark:text-gray-600 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors ${isActive ? 'text-neutral-900 dark:text-white' : ''}`}>{item.label}</span>
                     <span class="text-gray-400 dark:text-gray-600 select-none">]</span>
                 </a>
-            ))}
+                );
+            })}
             <button id="theme-toggle" class="w-8 h-8 rounded-full flex items-center justify-center hover:scale-105 transition cursor-pointer" aria-label="Toggle theme">
                 <svg class="w-4 h-4" viewBox="0 0 512 512" fill="currentColor">
                     <path d="M448 256c0-106-86-192-192-192V448c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path>
