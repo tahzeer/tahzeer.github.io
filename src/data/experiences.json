@@ -3,13 +3,13 @@
     "organization": "OpenG2P",
     "designation": "IC / Software Developer",
     "timeline": "Jan 2025 – Present",
-    "desc": "Building an open-source, DPGA-recognized Digital Public Infrastructure (DPI) layer to enable scalable, secure, and efficient G2P fund transfers for national-level deployments."
+    "desc": "Building an open-source, DPGA-recognized Digital Public Infrastructure (DPI) layer based on interoperable interfaces and standards to enable scalable, secure, and efficient G2P fund transfers for nation-state scale deployments."
   },
   {
     "organization": "Technoforte Software",
     "designation": "Software Engineer",
     "timeline": "Jun 2024 – Present",
-    "desc": "Building distributed microservices with FastAPI, Kubernetes, and Helm for nation-scale deployments — migrating legacy Odoo monoliths, shipping shared auth and middleware primitives, and working with government stakeholders on G2P benefit delivery systems."
+    "desc": "Building distributed microservices with FastAPI, Kubernetes, and Helm for large-scale deployments — migrating legacy Odoo monoliths, shipping shared auth and middleware primitives, and working with government stakeholders on G2P benefit delivery systems."
   },
   {
     "organization": "Rocket Propulsion Lab",
