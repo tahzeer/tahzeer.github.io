@@ -13,23 +13,21 @@ const { username, class: className = '' } = Astro.props;
 	data-username={username}
 	aria-label={`github contributions for ${username}`}
 >
-	<div class="mb-4 flex items-baseline justify-between gap-4">
-		<h2 class="font-serif-accent text-lg opacity-60">github contributions</h2>
-		<a
-			href={`https://github.com/${username}`}
-			class="text-sm text-gray-500 underline decoration-gray-200 decoration-4 transition-all hover:text-neutral-800 dark:decoration-gray-800 dark:hover:text-neutral-200"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			@{username}
-		</a>
-	</div>
-
 	<div class="github-contributions-panel">
 		<div class="github-contributions-grid" data-grid aria-hidden="true">
 			{Array.from({ length: 371 }).map(() => <span class="github-contributions-cell is-loading"></span>)}
 		</div>
-		<p class="mt-4 text-sm text-gray-500" data-summary>loading contribution graph...</p>
+		<div class="mt-2 flex items-baseline justify-between gap-4">
+			<p class="text-sm text-gray-500" data-summary>loading contribution graph...</p>
+			<a
+				href={`https://github.com/${username}`}
+				class="text-sm text-gray-500 underline decoration-gray-200 decoration-4 transition-all hover:text-neutral-800 dark:decoration-gray-800 dark:hover:text-neutral-200 shrink-0"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				@{username}
+			</a>
+		</div>
 		<div class="github-contributions-tooltip" data-tooltip role="tooltip"></div>
 	</div>
 </section>
