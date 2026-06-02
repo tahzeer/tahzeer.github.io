@@ -20,7 +20,7 @@ const { policy } = Astro.props;
 			<span aria-hidden="true">←</span> back to home
 		</a>
 
-		<h1 class="text-xl font-semibold tracking-tight mt-8 mb-3">{policy.title}</h1>
+		<h1 class="text-xl font-semibold tracking-tight mt-8 mb-2">{policy.title}</h1>
 
 		<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
 			<time datetime={site.lastUpdated}>Last updated: {formatDateOnly(site.lastUpdated)}</time>

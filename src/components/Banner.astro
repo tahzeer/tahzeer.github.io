@@ -1,0 +1,15 @@
+---
+export interface Props {
+	src: string;
+	alt?: string;
+}
+
+const { src, alt = 'Banner' } = Astro.props;
+---
+
+<img
+	src={src}
+	alt={alt}
+	class="w-full h-64 object-cover rounded-lg border border-zinc-200 dark:border-zinc-700"
+	loading="eager"
+/>
