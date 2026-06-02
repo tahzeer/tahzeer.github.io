@@ -11,49 +11,49 @@ export type Policy = {
 };
 
 export const chromeExtensionPolicy: Policy = {
-	title: "Chrome Extensions Privacy Policy",
+	title: "chrome extensions — privacy policy",
 	canonicalPath: "/privacy/chrome-extensions/",
 	sections: [
 		{
-			heading: "Overview",
+			heading: "overview",
 			paragraphs: [
-				"This privacy policy applies to all Chrome extensions developed by tahzeer",
+				"this privacy policy applies to all chrome extensions developed by tahzeer and published on the chrome web store.",
 			],
 		},
 		{
-			heading: "Data Collection",
+			heading: "data collection",
 			paragraphs: [
-				"<strong>I do not collect, store, or transmit any personal data or user information.</strong>",
+				"<strong>i do not collect, store, or transmit any personal data or user information.</strong>",
 			],
 			listItems: [
-				"Personal information",
-				"Browsing history",
-				"Website content",
-				"User preferences or settings",
-				"Analytics or usage data",
-				"Any data that could identify you",
+				"personal information",
+				"browsing history",
+				"website content",
+				"user preferences or settings",
+				"analytics or usage data",
+				"any data that could identify you",
 			],
 		},
 		{
-			heading: "How my Extensions Work",
+			heading: "how extensions work",
 			paragraphs: [],
 			listItems: [
-				"All functionality runs locally in your browser",
-				"No data is sent to external servers",
-				"No data is stored on my servers",
-				"No third-party services are used",
+				"all functionality runs locally in your browser",
+				"no data is sent to external servers",
+				"no data is stored on external servers",
+				"no third-party services are used",
 			],
 		},
 		{
-			heading: "Third-Party Services",
+			heading: "third-party services",
 			paragraphs: [
-				"my extensions do not integrate with any third-party services, analytics platforms, or external APIs.",
+				"these extensions do not integrate with any third-party services, analytics platforms, or external apis.",
 			],
 		},
 		{
-			heading: "Updates",
+			heading: "updates",
 			paragraphs: [
-				"This privacy policy may be updated from time to time. Any changes will be reflected on this page with an updated \"Last updated\" date.",
+				"this privacy policy may be updated from time to time. any changes will be reflected on this page with an updated last-updated date.",
 			],
 		},
 	],
