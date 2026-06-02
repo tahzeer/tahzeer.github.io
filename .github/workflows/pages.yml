@@ -37,6 +37,9 @@ jobs:
       - name: Build
         env:
           PUBLIC_LAST_UPDATED: ${{ steps.metadata.outputs.last_updated }}
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: npm run build
 
       - name: Upload artifact
