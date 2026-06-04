@@ -14,7 +14,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: 'x940 mt940 bank statement parser',
+    title: 'x940 parser',
     status: 'active',
     period: '2026',
     description:
@@ -27,7 +27,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: 'openg2p / dpi contributions',
+    title: 'oss contributions',
     status: 'active',
     description:
       'production work on digital public infrastructure for scalable benefit delivery and government-to-person fund transfers.',
