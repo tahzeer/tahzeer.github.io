@@ -35,52 +35,31 @@ export function persistTheme(theme: Theme): void {
 	localStorage.setItem(THEME_KEY, theme);
 }
 
-export function getNextTheme(currentTheme?: Theme): Theme {
-	const current = currentTheme ?? getCurrentTheme();
-	return current === 'dark' ? 'light' : 'dark';
+export function getNextTheme(): Theme {
+	return getCurrentTheme() === 'dark' ? 'light' : 'dark';
 }
 
 export interface MountThemeToggleDeps {
-	getElementById: (id: string) => HTMLElement | null;
 	getCurrentTheme: () => Theme;
 	persistTheme: (theme: Theme) => void;
 	applyTheme: (theme: Theme) => void;
-	startViewTransition?: Document['startViewTransition'];
 }
 
-const toggleDefaults: MountThemeToggleDeps = {
-	getElementById: (id) => document.getElementById(id),
-	getCurrentTheme,
-	persistTheme,
-	applyTheme,
-};
-
 export function mountThemeToggle(
-	buttonIdOrElement: string | HTMLElement,
-	deps: Partial<MountThemeToggleDeps> = {},
+	buttonId: string,
+	deps?: Partial<MountThemeToggleDeps>,
 ): void {
-	const { getElementById, getCurrentTheme: getCurrent, persistTheme: persist, applyTheme: apply, startViewTransition } = {
-		...toggleDefaults,
-		...deps,
-	};
-
-	const btn =
-		typeof buttonIdOrElement === 'string'
-			? getElementById(buttonIdOrElement)
-			: buttonIdOrElement;
-
+	const btn = document.getElementById(buttonId);
 	if (!btn) return;
 
+	const getCurrent = deps?.getCurrentTheme ?? getCurrentTheme;
+	const persist = deps?.persistTheme ?? persistTheme;
+	const apply = deps?.applyTheme ?? applyTheme;
+
 	btn.addEventListener('click', (e) => {
-		const next = getNextTheme(getCurrent());
-
-		const vt =
-			startViewTransition ??
-			(typeof document !== 'undefined' ? document.startViewTransition : undefined);
-
+		const next = getCurrent() === 'dark' ? 'light' : 'dark';
 		const enableVT =
-			vt &&
-			typeof window !== 'undefined' &&
+			document.startViewTransition &&
 			window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
 		const doApply = () => {
@@ -95,10 +74,10 @@ export function mountThemeToggle(
 			const maxY = Math.max(clickY, innerHeight - clickY);
 			const endRadius = Math.hypot(maxX, maxY);
 
-			const transition = vt(() => {
+			const vt = document.startViewTransition(() => {
 				doApply();
 			});
-			transition.ready.then(() => {
+			vt.ready.then(() => {
 				document.documentElement.animate(
 					{
 						clipPath: [
