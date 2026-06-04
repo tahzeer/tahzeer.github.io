@@ -12,7 +12,7 @@ const isActive = project.status === 'active';
 const meta = [project.status, project.period].filter(Boolean).join(' / ');
 ---
 
-<article class="mb-8">
+<article>
 	<div class="flex justify-between items-start gap-4 mb-1">
 		<h2 class="font-medium flex items-center gap-2">
 			{project.title}
@@ -29,7 +29,7 @@ const meta = [project.status, project.period].filter(Boolean).join(' / ');
 			{project.links.map((link) => (
 				<a
 					href={link.href}
-					class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 underline decoration-gray-200 decoration-4 dark:decoration-gray-800"
+					class="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 underline decoration-gray-200 decoration-4 underline-offset-[0.2em] dark:decoration-gray-800"
 					target={link.href.startsWith('http') ? '_blank' : undefined}
 					rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
 				>
@@ -38,5 +38,5 @@ const meta = [project.status, project.period].filter(Boolean).join(' / ');
 			))}
 		</div>
 	)}
-	<SectionDivider class="mt-6" />
+	<SectionDivider />
 </article>
