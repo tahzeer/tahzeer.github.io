@@ -3,6 +3,7 @@ import Main from './Main.astro';
 import { formatDisplayDate } from '../lib/dates';
 import { PROSE_CLASSES } from '../lib/prose';
 import type { BlogPost } from '../lib/blog';
+import { blogSlug } from '../lib/blog';
 
 interface Props {
 	post: BlogPost;
@@ -13,7 +14,7 @@ const { post, readingTime } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
 ---
 
-<Main title={title} description={description} canonicalPath={`/blog/${post.id.replace(/\.mdx?$/, '')}/`}>
+<Main title={title} description={description} canonicalPath={`/blog/${blogSlug(post)}/`}>
 	<article>
 		<header class="mb-10">
 			<a

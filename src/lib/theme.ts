@@ -5,6 +5,10 @@ export const themeInitScript = `(function(){var s=localStorage.getItem('${THEME_
 
 export type Theme = 'dark' | 'light';
 
+export function resolveTheme(stored: Theme | null, system: Theme): Theme {
+	return stored ?? system;
+}
+
 export function getStoredTheme(): Theme | null {
 	if (typeof localStorage === 'undefined') return null;
 	const stored = localStorage.getItem(THEME_KEY);
@@ -18,7 +22,7 @@ export function getSystemTheme(): Theme {
 }
 
 export function getCurrentTheme(): Theme {
-	return getStoredTheme() ?? getSystemTheme();
+	return resolveTheme(getStoredTheme(), getSystemTheme());
 }
 
 export function applyTheme(theme: Theme): void {
@@ -31,23 +35,57 @@ export function persistTheme(theme: Theme): void {
 	localStorage.setItem(THEME_KEY, theme);
 }
 
-export function getNextTheme(): Theme {
-	return getCurrentTheme() === 'dark' ? 'light' : 'dark';
+export function getNextTheme(currentTheme?: Theme): Theme {
+	const current = currentTheme ?? getCurrentTheme();
+	return current === 'dark' ? 'light' : 'dark';
 }
 
-export function mountThemeToggle(buttonId: string): void {
-	const btn = document.getElementById(buttonId);
+export interface MountThemeToggleDeps {
+	getElementById: (id: string) => HTMLElement | null;
+	getCurrentTheme: () => Theme;
+	persistTheme: (theme: Theme) => void;
+	applyTheme: (theme: Theme) => void;
+	startViewTransition?: Document['startViewTransition'];
+}
+
+const toggleDefaults: MountThemeToggleDeps = {
+	getElementById: (id) => document.getElementById(id),
+	getCurrentTheme,
+	persistTheme,
+	applyTheme,
+};
+
+export function mountThemeToggle(
+	buttonIdOrElement: string | HTMLElement,
+	deps: Partial<MountThemeToggleDeps> = {},
+): void {
+	const { getElementById, getCurrentTheme: getCurrent, persistTheme: persist, applyTheme: apply, startViewTransition } = {
+		...toggleDefaults,
+		...deps,
+	};
+
+	const btn =
+		typeof buttonIdOrElement === 'string'
+			? getElementById(buttonIdOrElement)
+			: buttonIdOrElement;
+
 	if (!btn) return;
 
 	btn.addEventListener('click', (e) => {
-		const next = getNextTheme();
+		const next = getNextTheme(getCurrent());
+
+		const vt =
+			startViewTransition ??
+			(typeof document !== 'undefined' ? document.startViewTransition : undefined);
+
 		const enableVT =
-			document.startViewTransition &&
+			vt &&
+			typeof window !== 'undefined' &&
 			window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
-		const apply = () => {
-			applyTheme(next);
-			persistTheme(next);
+		const doApply = () => {
+			apply(next);
+			persist(next);
 		};
 
 		if (enableVT) {
@@ -57,10 +95,10 @@ export function mountThemeToggle(buttonId: string): void {
 			const maxY = Math.max(clickY, innerHeight - clickY);
 			const endRadius = Math.hypot(maxX, maxY);
 
-			const vt = document.startViewTransition(() => {
-				apply();
+			const transition = vt(() => {
+				doApply();
 			});
-			vt.ready.then(() => {
+			transition.ready.then(() => {
 				document.documentElement.animate(
 					{
 						clipPath: [
@@ -76,7 +114,7 @@ export function mountThemeToggle(buttonId: string): void {
 				);
 			});
 		} else {
-			apply();
+			doApply();
 		}
 	});
 }

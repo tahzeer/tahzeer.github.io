@@ -2,7 +2,18 @@
 import { site } from '../data/site';
 import { formatDisplayDate, parseDateOnly } from '../lib/dates';
 import { PROSE_CLASSES } from '../lib/prose';
-import type { Policy } from '../lib/chromeExtensionPolicy';
+
+export interface PolicySection {
+	heading: string;
+	paragraphs: string[];
+	listItems?: string[];
+}
+
+export interface Policy {
+	title: string;
+	canonicalPath: string;
+	sections: PolicySection[];
+}
 
 interface Props {
 	policy: Policy;
