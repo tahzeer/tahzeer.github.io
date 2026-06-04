@@ -4,10 +4,20 @@ import { projects } from '../data/projects';
 import Main from '../layouts/Main.astro';
 ---
 
-<Main>
+<Main title="projects" description="things i've built.">
 	<section>
-		<div class="space-y-8">
-			{projects.map((project) => <ProjectItem project={project} />)}
+		<div class="flex justify-end mb-6 text-sm text-gray-500">
+			{projects.length > 0 && (
+				<span>{projects.length} {projects.length === 1 ? 'project' : 'projects'}</span>
+			)}
 		</div>
+
+		{projects.length > 0 ? (
+			<div class="space-y-8">
+				{projects.map((project) => <ProjectItem project={project} />)}
+			</div>
+		) : (
+			<p class="text-gray-600 dark:text-gray-400">no projects listed yet.</p>
+		)}
 	</section>
 </Main>

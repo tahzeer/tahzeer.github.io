@@ -1,6 +1,5 @@
 ---
 import type { Project } from '../data/projects';
-import SectionDivider from './SectionDivider.astro';
 import StatusDot from './StatusDot.astro';
 
 type Props = {
@@ -38,5 +37,4 @@ const meta = [project.status, project.period].filter(Boolean).join(' / ');
 			))}
 		</div>
 	)}
-	<SectionDivider />
 </article>
