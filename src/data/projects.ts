@@ -14,7 +14,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: 'x940 parser',
+    title: 'x940',
     status: 'active',
     period: '2026',
     description:
