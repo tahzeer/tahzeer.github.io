@@ -1,10 +1,12 @@
 ---
 import GitHubContributions from './GitHubContributions.astro';
+import WakaTimeActivity from './WakaTimeActivity.astro';
 import SpotifyNowPlaying from './SpotifyNowPlaying.astro';
 ---
 
 <section class="mb-8">
     <h2 class="font-serif-accent text-lg opacity-60 mb-6">recent activity</h2>
-    <GitHubContributions username="tahzeer" class="mb-6" />
+    <GitHubContributions username="tahzeer" class="mb-4" />
+    <WakaTimeActivity />
     <SpotifyNowPlaying />
 </section>

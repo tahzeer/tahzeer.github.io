@@ -72,6 +72,16 @@ Three env vars used by `SpotifyNowPlaying.astro`: `SPOTIFY_CLIENT_ID`, `SPOTIFY_
 
 **Security note**: `SpotifyNowPlaying.astro` embeds these as `data-*` attributes in the HTML — they are visible in page source. The module `src/features/spotify/spotify.ts` is an unused server-side alternative.
 
+## WakaTime / Environment Variables
+One env var used by `WakaTimeActivity.astro`: `WAKATIME_API_KEY` (from `.env` / GitHub Secret; get it at https://wakatime.com/api-key).
+
+**Architecture**: WakaTime's docs forbid using the secret API key in client-side JS, and this site is 100% static (no SSR). So the fetch happens **at build time** in the `.astro` frontmatter (same pattern as `PUBLIC_LAST_UPDATED`) via `src/features/wakatime/stats.ts`, which calls `GET /users/current/stats/last_7_days` with HTTP Basic auth. Only normalized numbers (AI-vs-human coding ratio, top editors, AI agent line counts) get baked into the HTML; nothing secret ships.
+
+- Renders nothing when the key is missing or the fetch fails → page never breaks.
+- Data refreshes on each deploy/push to `master` (CI passes `WAKATIME_API_KEY` into the build).
+- The one-liner shows last-30-days coding time + AI coding percent (no tooltip / no popups — matches the minimalist design philosophy).
+- The AI vs human **seconds** split comes from the `categories[]` rows named `ai coding` vs `coding` — the only way the API splits coding *time* (other endpoints only provide AI line/token counts, not seconds).
+
 ## CI/CD (`.github/workflows/pages.yml`)
 - Trigger: push to `master`, manual `workflow_dispatch`
 - Build step passes `PUBLIC_LAST_UPDATED` (from `git log -1 --format=%cs`) and all three `SPOTIFY_*` secrets as env vars

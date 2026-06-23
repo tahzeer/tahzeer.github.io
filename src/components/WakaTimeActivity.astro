@@ -1,0 +1,33 @@
+---
+import { fetchWakaTimeStats, formatDuration, type WakaTimeCodingRatio } from '../features/wakatime/stats';
+
+const apiKey = import.meta.env.WAKATIME_API_KEY ?? '';
+
+let stats: WakaTimeCodingRatio | null = null;
+try {
+	stats = await fetchWakaTimeStats(apiKey, 'last_30_days');
+} catch {
+	stats = null;
+}
+
+const codingSeconds = stats ? stats.humanSeconds + stats.aiSeconds : 0;
+const aiPct = codingSeconds > 0 ? Math.round((stats!.aiSeconds / codingSeconds) * 100) : 0;
+---
+
+{
+	stats && codingSeconds > 0 ? (
+		<p class="text-sm text-gray-500 mb-6">
+			{formatDuration(codingSeconds)} coding in the last 30 days · {aiPct}% ai
+		</p>
+	) : import.meta.env.DEV ? (
+		<p class="text-sm text-gray-500 mb-6 wakatime-placeholder">
+			00h 00m coding in the last 30 days · 00% ai
+		</p>
+	) : null
+}
+
+<style>
+	.wakatime-placeholder {
+		opacity: 0.4;
+	}
+</style>
