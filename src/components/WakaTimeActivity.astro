@@ -17,11 +17,11 @@ const aiPct = codingSeconds > 0 ? Math.round((stats!.aiSeconds / codingSeconds) 
 {
 	stats && codingSeconds > 0 ? (
 		<p class="text-sm text-gray-500 mb-6">
-			{formatDuration(codingSeconds)} coding in the last 30 days · {aiPct}% ai
+			<span class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800">{formatDuration(codingSeconds)}</span> coding in the last 30 days · <span class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800">{aiPct}%</span> ai
 		</p>
 	) : import.meta.env.DEV ? (
 		<p class="text-sm text-gray-500 mb-6 wakatime-placeholder">
-			00h 00m coding in the last 30 days · 00% ai
+			<span class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800">00h 00m</span> coding in the last 30 days · <span class="tabular-nums underline decoration-gray-200 decoration-4 dark:decoration-gray-800">00%</span> ai
 		</p>
 	) : null
 }
