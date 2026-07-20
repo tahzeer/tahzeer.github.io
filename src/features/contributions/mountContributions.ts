@@ -1,4 +1,5 @@
-import { fetchGitHubContributions, type GitHubContributionSummary } from './githubContributions';
+import { fetchCombinedContributions } from './combinedContributions';
+import type { GitHubContributionSummary } from './githubContributions';
 import { renderContributionGrid, renderContributionError } from './renderContributionGrid';
 import { createTooltip, showTooltip, hideTooltip } from './contributionTooltip';
 
@@ -12,7 +13,7 @@ export interface MountContributionsDeps {
 }
 
 const defaults: MountContributionsDeps = {
-	fetchContributions: fetchGitHubContributions,
+	fetchContributions: fetchCombinedContributions,
 	renderGrid: renderContributionGrid,
 	renderError: renderContributionError,
 	buildTooltip: createTooltip,

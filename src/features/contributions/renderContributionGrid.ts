@@ -43,7 +43,7 @@ export function renderContributionGrid(
 	grid.textContent = '';
 	grid.removeAttribute('aria-hidden');
 	grid.setAttribute('role', 'img');
-	grid.setAttribute('aria-label', `${total} github contributions in the last year`);
+	grid.setAttribute('aria-label', `${total} contributions in the last year`);
 	grid.style.gridTemplateColumns = `repeat(${Math.ceil(contributions.length / 7)}, minmax(0, 1fr))`;
 
 	for (const day of contributions) {
